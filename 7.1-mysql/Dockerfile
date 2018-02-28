@@ -1,6 +1,5 @@
 FROM chialab/php:7.1
 
-# Install PHP extensions and PECL modules.
 RUN \
     apt-get update \
     && apt-get install -y wget psmisc lsb-release \
