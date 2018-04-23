@@ -2,7 +2,9 @@ FROM chialab/php:7.1
 
 RUN \
     apt-get update \
-    && apt-get install -y wget psmisc lsb-release \
+    && apt-get install -y wget psmisc lsb-release zip unzip libc-client-dev libkrb5-dev \
+    && docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos \
+    && docker-php-ext-install imap \
     && curl -sLo /root/mysql-apt-config.deb 'https://dev.mysql.com/get/mysql-apt-config_0.8.9-1_all.deb' \
     && dpkg -i /root/mysql-apt-config.deb \
     && echo 'deb http://repo.mysql.com/apt/debian/ jessie mysql-5.7' >> /etc/apt/sources.list.d/mysql.list \
@@ -10,7 +12,7 @@ RUN \
     && echo 'deb http://ftp.debian.org/debian/ jessie-backports main' >> /etc/apt/sources.list.d/backports.list \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-community-server mysql-community-client \
-    && apt-get -t jessie-backports install -y ghc cabal-install zip unzip \
+    && apt-get -t jessie-backports install -y ghc cabal-install \
     && apt-get clean \
     && echo 'sql_mode = TRADITIONAL' >> /etc/mysql/mysql.conf.d/mysqld.cnf \
     && cabal update \
