@@ -22,7 +22,8 @@ RUN \
     && cd shellcheck-master \
     && cabal install \
     && mv /root/.cabal/bin/shellcheck /usr/local/bin \
-    && curl -sLo /usr/local/bin/find-sh-run-shellcheck 'https://raw.githubusercontent.com/Slamdunk/docker-php-mysql/master/find-sh-run-shellcheck' \
-    && chmod 0755 /usr/local/bin/find-sh-run-shellcheck \
     && apt-get autoremove -y ghc cabal-install \
     && rm -rf /root/shellcheck-master* /root/.cabal /root/.ghc /root/composer /root/mysql-apt-config.deb /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY "find-sh-run-shellcheck" "/usr/local/bin/find-sh-run-shellcheck"
+RUN chmod 0755 /usr/local/bin/find-sh-run-shellcheck
