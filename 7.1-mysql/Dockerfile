@@ -29,3 +29,4 @@ COPY "find-sh-run-shellcheck" "/usr/local/bin/find-sh-run-shellcheck"
 RUN chmod 0755 /usr/local/bin/find-sh-run-shellcheck
 
 COPY "php.ini" "/usr/local/etc/php/php.ini"
+RUN cp /usr/share/zoneinfo/Europe/Rome /etc/localtime
