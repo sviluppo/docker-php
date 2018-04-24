@@ -28,4 +28,4 @@ RUN \
 COPY "find-sh-run-shellcheck" "/usr/local/bin/find-sh-run-shellcheck"
 RUN chmod 0755 /usr/local/bin/find-sh-run-shellcheck
 
-COPY "date.ini" "/usr/local/etc/php/date.ini"
+COPY "php.ini" "/usr/local/etc/php/php.ini"
