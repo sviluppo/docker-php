@@ -8,7 +8,7 @@ $options = getopt('', array(
 ));
 $excludes = isset($options['exclude']) ? (array) $options['exclude'] : array();
 
-$find = sprintf('find %s -type f -name %s', escapeshellarg(__DIR__), escapeshellarg('*.sh'));
+$find = sprintf('find . -type f -name %s', escapeshellarg('*.sh'));
 
 echo '> ' . $find . PHP_EOL;
 exec($find, $findOutput, $return);
