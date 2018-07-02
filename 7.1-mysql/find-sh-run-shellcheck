@@ -3,7 +3,12 @@
 
 declare(strict_types=1);
 
-$find = sprintf('find . -type f -name %s', escapeshellarg('*.sh'));
+$options = getopt('', array(
+    'exclude:',
+));
+$excludes = isset($options['exclude']) ? (array) $options['exclude'] : array();
+
+$find = sprintf('find %s -type f -name %s', escapeshellarg(__DIR__), escapeshellarg('*.sh'));
 
 echo '> ' . $find . PHP_EOL;
 exec($find, $findOutput, $return);
@@ -12,6 +17,12 @@ $firstLineTemplate = '#!/bin/sh';
 $exitCode = 0;
 $count = 0;
 foreach ($findOutput as $file) {
+    foreach ($excludes as $exclude) {
+        if (false !== strpos($file, $exclude)) {
+            continue 2;
+        }
+    }
+
     ++$count;
 
     $fileResource = fopen($file, 'r');
