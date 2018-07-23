@@ -21,6 +21,8 @@ RUN \
     && cabal install \
     && mv /root/.cabal/bin/shellcheck /usr/local/bin \
     && apt-get autoremove -y ghc cabal-install \
+    && curl -sLo /usr/local/bin/deployer 'https://deployer.org/deployer.phar' \
+    && chmod +x /usr/local/bin/deployer \
     && rm -rf /root/shellcheck-master* /root/.cabal /root/.ghc /root/composer /root/mysql-apt-config.deb /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY "find-sh-run-shellcheck" "/usr/local/bin/find-sh-run-shellcheck"
