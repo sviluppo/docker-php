@@ -5,7 +5,7 @@ RUN \
     && apt-get install -y wget psmisc lsb-release zip unzip libc-client-dev libkrb5-dev poppler-utils gnupg ghc cabal-install \
     && docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-install imap \
-    && curl -sLo /root/mysql-apt-config.deb 'https://dev.mysql.com/get/mysql-apt-config_0.8.10-1_all.deb' \
+    && curl -sLo /root/mysql-apt-config.deb 'https://dev.mysql.com/get/mysql-apt-config_0.8.11-1_all.deb' \
     && dpkg -i /root/mysql-apt-config.deb \
     && echo 'deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7' >> /etc/apt/sources.list.d/mysql.list \
     && echo 'deb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7' >> /etc/apt/sources.list.d/mysql.list \
