@@ -2,39 +2,41 @@ FROM php:7.1-apache
 
 # Install PHP extensions and PECL modules.
 RUN buildDeps=" \
+        cabal-install \
         default-libmysqlclient-dev \
+        ghc \
         libbz2-dev \
         libsasl2-dev \
-        ghc \
-        cabal-install \
     " \
     runtimeDeps=" \
         curl \
         git \
+        gnupg \
+        libc-client-dev \
         libfreetype6-dev \
         libicu-dev \
         libjpeg-dev \
+        libkrb5-dev \
         libpng-dev \
         libpq-dev \
         libxml2-dev \
-        wget \
-        psmisc \
         lsb-release \
-        zip \
-        unzip \
-        libc-client-dev \
-        libkrb5-dev \
         poppler-utils \
-        gnupg \
-        mysql-community-server \
-        mysql-community-client \
+        psmisc \
+        unzip \
+        wget \
+        zip \
     " \
+    && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y $buildDeps $runtimeDeps \
     && curl -sLo /root/mysql-apt-config.deb 'https://dev.mysql.com/get/mysql-apt-config_0.8.11-1_all.deb' \
     && dpkg -i /root/mysql-apt-config.deb \
     && echo 'deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7' >> /etc/apt/sources.list.d/mysql.list \
     && echo 'deb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7' >> /etc/apt/sources.list.d/mysql.list \
     && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y $buildDeps $runtimeDeps \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-community-server mysql-community-client \
+    && apt-get clean \
+    && echo 'sql_mode = TRADITIONAL' >> /etc/mysql/mysql.conf.d/mysqld.cnf \
     && docker-php-ext-install \
         bcmath \
         bz2 \
@@ -54,7 +56,6 @@ RUN buildDeps=" \
     && docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-install imap \
     && docker-php-ext-install exif \
-    && echo 'sql_mode = TRADITIONAL' >> /etc/mysql/mysql.conf.d/mysqld.cnf \
     && cabal update \
     && curl -sLo /root/shellcheck-master.zip 'https://github.com/koalaman/shellcheck/archive/master.zip' \
     && cd /root \
