@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.1-cli
 
 # Install PHP extensions and PECL modules.
 RUN buildDeps=" \
@@ -72,8 +72,7 @@ RUN buildDeps=" \
         /root/mysql-apt-config.deb \
         /var/lib/apt/lists/* \
         /tmp/* \
-        /var/tmp/* \
-    && a2enmod rewrite
+        /var/tmp/*
 
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
