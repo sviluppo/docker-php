@@ -4,7 +4,6 @@ FROM php:7.1-apache
 RUN buildDeps=" \
         default-libmysqlclient-dev \
         libbz2-dev \
-        libmemcached-dev \
         libsasl2-dev \
         ghc \
         cabal-install \
@@ -15,9 +14,6 @@ RUN buildDeps=" \
         libfreetype6-dev \
         libicu-dev \
         libjpeg-dev \
-        libldap2-dev \
-        libmcrypt-dev \
-        libmemcachedutil2 \
         libpng-dev \
         libpq-dev \
         libxml2-dev \
@@ -46,7 +42,6 @@ RUN buildDeps=" \
         iconv \
         intl \
         mbstring \
-        mcrypt \
         mysqli \
         opcache \
         pdo_mysql \
@@ -56,13 +51,9 @@ RUN buildDeps=" \
         zip \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
-    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
-    && docker-php-ext-install ldap \
     && docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-install imap \
     && docker-php-ext-install exif \
-    && pecl install memcached redis \
-    && docker-php-ext-enable memcached.so redis.so \
     && echo 'sql_mode = TRADITIONAL' >> /etc/mysql/mysql.conf.d/mysqld.cnf \
     && cabal update \
     && curl -sLo /root/shellcheck-master.zip 'https://github.com/koalaman/shellcheck/archive/master.zip' \
