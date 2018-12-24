@@ -1,4 +1,4 @@
-FROM php:7.1
+FROM php:7.3
 
 # Install PHP extensions and PECL modules.
 RUN buildDeps=" \
