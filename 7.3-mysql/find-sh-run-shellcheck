@@ -1,0 +1,53 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+$options = getopt('', array(
+    'exclude:',
+));
+$excludes = isset($options['exclude']) ? (array) $options['exclude'] : array();
+
+$find = sprintf('find . -type f -name %s', escapeshellarg('*.sh'));
+
+echo '> ' . $find . PHP_EOL;
+exec($find, $findOutput, $return);
+
+$firstLineTemplate = '#!/bin/sh';
+$exitCode = 0;
+$count = 0;
+foreach ($findOutput as $file) {
+    foreach ($excludes as $exclude) {
+        if (false !== strpos($file, $exclude)) {
+            continue 2;
+        }
+    }
+
+    ++$count;
+
+    $fileResource = fopen($file, 'r');
+    $firstLine = rtrim(fgets($fileResource), PHP_EOL);
+    fclose($fileResource);
+    if ($firstLine !== $firstLineTemplate) {
+        $exitCode = 1;
+        echo sprintf('> The first line of file "%s" must be "%s", found "%s"',
+            $file,
+            $firstLineTemplate,
+            $firstLine
+        ) . PHP_EOL . PHP_EOL;
+    }
+
+    $lintOutput = array();
+    $command = sprintf('shellcheck --color=always --external-sources --shell=sh %s',
+        escapeshellarg($file)
+    );
+    echo '> ' . $command . PHP_EOL;
+    exec($command, $lintOutput, $lintReturn);
+    if (0 !== $lintReturn) {
+        $exitCode = $lintReturn;
+        echo trim(implode(PHP_EOL, $lintOutput)) . PHP_EOL . PHP_EOL;
+    }
+}
+
+echo 'Parsed files: ' . $count . PHP_EOL;
+exit($exitCode);
