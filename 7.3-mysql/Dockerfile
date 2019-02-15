@@ -20,6 +20,7 @@ RUN buildDeps=" \
         libpng-dev \
         libpq-dev \
         libxml2-dev \
+        libzip-dev \
         lsb-release \
         poppler-utils \
         psmisc \
