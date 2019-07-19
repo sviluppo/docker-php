@@ -50,6 +50,10 @@ RUN buildDeps=" \
     && docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-install imap \
     && docker-php-ext-install exif \
+    && pecl install pcov \
+    && echo "extension=pcov.so" > /usr/local/etc/php/conf.d/docker-php-ext-pcov.ini \
+    && curl -sLo /usr/local/bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
+    && chmod +x /usr/local/bin/wait-for-it.sh \
     && cabal update \
     && curl -sLo /root/shellcheck-master.zip 'https://github.com/koalaman/shellcheck/archive/master.zip' \
     && cd /root \
