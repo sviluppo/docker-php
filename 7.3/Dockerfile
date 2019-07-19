@@ -30,14 +30,7 @@ RUN buildDeps=" \
     " \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y $buildDeps $runtimeDeps \
-    && curl -sLo /root/mysql-apt-config.deb 'https://dev.mysql.com/get/mysql-apt-config_0.8.12-1_all.deb' \
-    && dpkg -i /root/mysql-apt-config.deb \
-    && echo 'deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7' >> /etc/apt/sources.list.d/mysql.list \
-    && echo 'deb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7' >> /etc/apt/sources.list.d/mysql.list \
-    && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-community-server mysql-community-client \
     && apt-get clean \
-    && echo 'sql_mode = TRADITIONAL' >> /etc/mysql/mysql.conf.d/mysqld.cnf \
     && docker-php-ext-install \
         bcmath \
         bz2 \
@@ -70,7 +63,6 @@ RUN buildDeps=" \
         /root/.cabal \
         /root/.ghc \
         /root/composer \
-        /root/mysql-apt-config.deb \
         /var/lib/apt/lists/* \
         /tmp/* \
         /var/tmp/*
