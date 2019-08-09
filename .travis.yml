@@ -1,0 +1,3 @@
+language: minimal
+
+script: curl -X POST $DOCKER_BUILD_TRIGGER_URL
