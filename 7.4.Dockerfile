@@ -75,7 +75,7 @@ RUN buildDeps=" \
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && ln -s $(composer config --global home) /root/composer \
-    && composer global require hirak/prestissimo
+    && composer global require hirak/prestissimo localheinz/composer-normalize
 ENV PATH=$PATH:/root/composer/vendor/bin COMPOSER_ALLOW_SUPERUSER=1
 
 COPY "find-sh-run-shellcheck" "/usr/local/bin/find-sh-run-shellcheck"
