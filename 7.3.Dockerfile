@@ -82,3 +82,5 @@ RUN chmod 0755 /usr/local/bin/find-sh-run-shellcheck
 
 COPY "7.3.php.ini" "/usr/local/etc/php/php.ini"
 RUN cp /usr/share/zoneinfo/Europe/Rome /etc/localtime
+
+RUN curl -sSL -o /usr/local/bin/codecov https://codecov.io/bash && chmod +x /usr/local/bin/codecov
