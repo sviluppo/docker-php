@@ -46,7 +46,7 @@ RUN buildDeps=" \
         zip \
     && docker-php-ext-configure gd \
     && docker-php-ext-install gd \
-    && docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos \
+    && PHP_OPENSSL=yes docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-install imap \
     && docker-php-ext-install exif \
     && pecl install pcov \
