@@ -1,10 +1,8 @@
-FROM php:7.3-stretch
+FROM php:7.3
 
 # Install PHP extensions and PECL modules.
 RUN buildDeps=" \
-        cabal-install \
         default-libmysqlclient-dev \
-        ghc \
         libbz2-dev \
         libsasl2-dev \
     " \
@@ -52,20 +50,13 @@ RUN buildDeps=" \
     && docker-php-ext-install exif \
     && pecl install pcov \
     && docker-php-ext-enable pcov \
+    && wget -O /usr/local/bin/phive https://phar.io/releases/phive.phar \
+    && chmod +x /usr/local/bin/phive \
+    && phive install --global --trust-gpg-keys C00543248C87FB13,D2CCAC42F6295E7D,8AC095C96F5C623D composer-normalize composer-require-checker composer-unused \
     && curl -sLo /usr/local/bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
     && chmod +x /usr/local/bin/wait-for-it.sh \
-    && cabal update \
-    && curl -sLo /root/shellcheck-master.zip 'https://github.com/koalaman/shellcheck/archive/master.zip' \
-    && cd /root \
-    && unzip shellcheck-master.zip \
-    && cd shellcheck-master \
-    && cabal install \
-    && mv /root/.cabal/bin/shellcheck /usr/local/bin \
     && apt-get purge -y --auto-remove $buildDeps \
     && rm -rf \
-        /root/shellcheck-master* \
-        /root/.cabal \
-        /root/.ghc \
         /root/composer \
         /var/lib/apt/lists/* \
         /tmp/* \
@@ -74,11 +65,8 @@ RUN buildDeps=" \
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && ln -s $(composer config --global home) /root/composer \
-    && composer global require hirak/prestissimo localheinz/composer-normalize
-ENV PATH=$PATH:/root/composer/vendor/bin COMPOSER_ALLOW_SUPERUSER=1
-
-COPY "find-sh-run-shellcheck" "/usr/local/bin/find-sh-run-shellcheck"
-RUN chmod 0755 /usr/local/bin/find-sh-run-shellcheck
+    && composer global require hirak/prestissimo
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 COPY "7.3.php.ini" "/usr/local/etc/php/php.ini"
 RUN cp /usr/share/zoneinfo/Europe/Rome /etc/localtime
