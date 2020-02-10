@@ -35,7 +35,6 @@ RUN buildDeps=" \
         calendar \
         iconv \
         intl \
-        mbstring \
         mysqli \
         opcache \
         pdo_mysql \

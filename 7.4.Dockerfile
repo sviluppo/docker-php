@@ -15,7 +15,6 @@ RUN buildDeps=" \
         libicu-dev \
         libjpeg-dev \
         libkrb5-dev \
-        libonig-dev \
         libpng-dev \
         libpq-dev \
         libxml2-dev \
@@ -36,7 +35,6 @@ RUN buildDeps=" \
         calendar \
         iconv \
         intl \
-        mbstring \
         mysqli \
         opcache \
         pdo_mysql \
