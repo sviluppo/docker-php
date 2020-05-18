@@ -1,6 +1,7 @@
 language: minimal
 
-script: curl -H "Content-Type: application/json" -X POST $DOCKER_BUILD_TRIGGER_URL
+script:
+  - curl -H "Content-Type: application/json" -X POST $DOCKER_BUILD_TRIGGER_URL
 
 notifications:
   email: false
